@@ -16,7 +16,7 @@ namespace SafePilotBrothers.Model
         {
             var size = configuration.GetValue<int>("SizeFields");
 
-            Sticks = new Stick[size * size][];
+            Sticks = new Stick[size][];
 
             UtilitySafe.RandomSticks(Sticks);
         }

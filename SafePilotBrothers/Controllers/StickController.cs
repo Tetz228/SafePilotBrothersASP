@@ -34,20 +34,39 @@ namespace SafePilotBrothers.Controllers
         /// <summary>
         ///     Повернуть рукоятки.
         /// </summary>
+        /// <param name="indexColumn">Индекс изменяемого столбца.</param>
+        /// <param name="indexLine">Индекс изменяемой строки.</param>
         /// <param name="sticks">Рукоятки.</param>
         /// <returns>Повернутые рукоятки.</returns>
-        [HttpPut]
+        [HttpPut("TurnSticks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Stick[][]> TurnSticks(Stick[][] sticks)
+        public ActionResult<Stick[][]> TurnSticks(int indexColumn, int indexLine, Stick[][] sticks)
         {
-            return Ok(_stickService.TurnSticks(sticks));
+            return Ok(_stickService.TurnSticks(indexColumn, indexLine, sticks));
         }
-
+        
+        /// <summary>
+        ///     Проверка всех рукояток на совпадения положения.
+        /// </summary>
+        /// <returns>Результат о положении рукояток.</returns>
+        [HttpGet("IsCheckSticks")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public ActionResult<bool> IsCheckSticks()
+        {
+            if (_stickService.IsCheckSticks(_safe.Sticks))
+            {
+                return Ok();
+            }
+            
+            return NoContent();
+        }
+        
         /// <summary>
         ///     Получить рукоятки.
         /// </summary>
         /// <returns>Рукоятки.</returns>
-        [HttpGet]
+        [HttpGet("GetSticks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Stick[][]> GetSticks()
         {
